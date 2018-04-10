@@ -10,11 +10,13 @@ import UIKit
 
 class ViewController: UIViewController {
     @IBOutlet weak var lbl: UILabel!
+    @IBOutlet weak var swt: UISwitch!
     var myTimer = Timer()
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        myTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
+        //myTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
+        
+        swt.setOn(false, animated: true)
     }
     @objc func updateTime() {
         let date = Date()
@@ -24,7 +26,16 @@ class ViewController: UIViewController {
     }
 
     @IBAction func sw(_ sender: Any) {
-        
+        if swt.isOn == true {
+            //myTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
+            
+            // closure 사용
+            myTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: {(myTimer) in
+                self.updateTime()
+            })
+        } else {
+            myTimer.invalidate()
+        }
     }
 }
 
